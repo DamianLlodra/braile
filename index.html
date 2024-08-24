@@ -42,11 +42,9 @@
             const paragraph = this.text.split("\n").map((p) => {
               return `<p>${p.trim()}</p>`;
             });
-            console.log(paragraph);
             
             const textWithFormat = paragraph.join("\n\n"); 
 
-            console.log(textWithFormat);
             return this.isMirrored
               ? textWithFormat.split("").reverse().join("")
               : textWithFormat;
@@ -60,7 +58,7 @@
                             <style>
                                 @font-face {
                                     font-family: 'Braille';
-                                    src: url('fonts/Braille.ttf') format('truetype');
+                                    src: url('assets/fonts/Braille.ttf') format('truetype');
                                 }
                                 body {
                                     font-family: 'Braille', sans-serif;
