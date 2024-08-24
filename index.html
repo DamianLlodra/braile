@@ -41,13 +41,10 @@
           textBraille() {
             const paragraph = this.text.split("\n").map((p) => {
               return `<p>${p.trim()}</p>`;
-            });
-            
+            });            
             const textWithFormat = paragraph.join("\n\n"); 
 
-            return this.isMirrored
-              ? textWithFormat.split("").reverse().join("")
-              : textWithFormat;
+            return textWithFormat;           
           },
         },
         methods: {
@@ -66,7 +63,8 @@
                                 }
                                 .mirror {
                                     transform: scaleX(-1);
-                                    text-align: right;
+                                    text-align: left;
+                                    
                                 }
                                 h1 {
                                     font-family: Arial, sans-serif;
@@ -74,14 +72,19 @@
                                     margin-bottom: 20px;
                                     text-align:center;
                                 }
+                                p {
+                                    text-indent: 40px; 
+                                }
                             </style>
                         </head>
                         <body>
                             <h1 style="font-family: Arial"> ${this.title}</h1>
-                            <div class="${this.isMirrored ? "mirror" : ""}">
+                            <div class="${this.isMirrored ? 'mirror' : ''}">
                                 ${
-                                  document.querySelector(".Braille-text")
-                                    .innerHTML
+                                  this.title
+                                  }
+                                ${
+                                  this.textBraille
                                 }
                             </div>
                         </body>
