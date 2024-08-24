@@ -1,0 +1,68 @@
+@font-face {
+    font-family: 'Braille';
+    src: url('fonts/Braille.ttf') format('truetype');
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+#app {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.input-section,
+.output-section {
+    width: 50%; 
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.input-section {
+    border-right: 1px solid #ccc;
+}
+
+textarea {
+    flex: 1;
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 20px;
+    resize: none;
+}
+
+.output-section {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    overflow-y: auto;
+}
+
+.Braille-text {
+    font-family: 'Braille', sans-serif;
+    font-size: 24px;
+    
+    text-align: left;
+    width: 100%;
+}
+.Braille-text p {
+    margin-top: 20px; 
+}
+.mirror {
+    transform: scaleX(-1); 
+    text-align: right;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}

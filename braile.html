@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Editor de Texto en Braille</title>
+    <link rel="stylesheet" href="estilos.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="input-section">
+        <input
+          type="text"
+          v-model="title"
+          placeholder="Titulo"
+          style="text-align: center"
+        />
+        <textarea v-model="text" placeholder="Escribe aquí..."></textarea>
+        <div>
+          <label>
+            <input type="checkbox" v-model="isMirrored" /> Espejado
+          </label>
+        </div>
+        <button @click="sendPrint">Imprimir en Braille</button>
+      </div>
+
+      <div class="output-section" :class="{ mirror: isMirrored }">
+        <div class="Braille-text" v-html="textBraille"></div>
+      </div>
+    </div>
+
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          title: "",
+          text: "",
+          isMirrored: false,
+        },
+        computed: {
+          textBraille() {
+            const paragraph = this.text.split("\n").map((p) => {
+              return `<p>${p.trim()}</p>`;
+            });
+            console.log(paragraph);
+            
+            const textWithFormat = paragraph.join("\n\n"); 
+
+            console.log(textWithFormat);
+            return this.isMirrored
+              ? textWithFormat.split("").reverse().join("")
+              : textWithFormat;
+          },
+        },
+        methods: {
+          sendPrint() {
+            const pageHtml = `
+                        <html>
+                        <head>
+                            <style>
+                                @font-face {
+                                    font-family: 'Braille';
+                                    src: url('fonts/Braille.ttf') format('truetype');
+                                }
+                                body {
+                                    font-family: 'Braille', sans-serif;
+                                    font-size: 24px;
+                                }
+                                .mirror {
+                                    transform: scaleX(-1);
+                                    text-align: right;
+                                }
+                                h1 {
+                                    font-family: Arial, sans-serif;
+                                    font-size: 24px;
+                                    margin-bottom: 20px;
+                                    text-align:center;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <h1 style="font-family: Arial"> ${this.title}</h1>
+                            <div class="${this.isMirrored ? "mirror" : ""}">
+                                ${
+                                  document.querySelector(".Braille-text")
+                                    .innerHTML
+                                }
+                            </div>
+                        </body>
+                        </html>
+                    `;
+            const page = window.open("", "_blank", "height=500, width=800");
+            page.document.write(pageHtml);
+            page.document.title = "Imprimir en Braille";
+            page.document.close();
+            page.print();
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
